@@ -1,0 +1,38 @@
+{
+  "name": "create-actrone-app",
+  "version": "0.1.0",
+  "description": "Scaffold a local-first AI-agent memory app powered by @actrone/memory — zero services, no API key.",
+  "license": "MIT",
+  "author": "Actrone",
+  "homepage": "https://actrone.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/actrone/create-actrone-app.git"
+  },
+  "type": "module",
+  "bin": {
+    "create-actrone-app": "./bin/create-actrone-app.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "bin",
+    "lib"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "prepublishOnly": "node --test"
+  },
+  "keywords": [
+    "actrone",
+    "memory",
+    "ai",
+    "agents",
+    "scaffold",
+    "create-app"
+  ]
+}

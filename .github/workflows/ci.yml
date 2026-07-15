@@ -1,0 +1,28 @@
+name: CI
+
+# Fast gate on every PR + push: the scaffolder is pure, dependency-free Node, so the
+# whole suite is `node --test` (no install, no build). Node 22 per package.json engines.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (node --test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      # No dependencies to install — the package uses only the Node stdlib.
+      - name: Run tests
+        run: node --test
+      # Smoke-check the CLI entry actually runs.
+      - name: CLI smoke test
+        run: node bin/create-actrone-app.mjs --help

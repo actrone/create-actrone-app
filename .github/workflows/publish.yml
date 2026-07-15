@@ -1,0 +1,50 @@
+name: Publish to npm
+
+# Publishes create-actrone-app to the npm registry on a version tag (vX.Y.Z). The tag's
+# version MUST match package.json "version" (npm publish refuses a duplicate, so a
+# mismatched/rerun tag fails loudly rather than double-publishing).
+#
+# Supply-chain posture (mirrors @actrone/memory): npm OIDC **Trusted Publishing** — no
+# long-lived NPM_TOKEN. GitHub's OIDC identity authenticates the publish with short-lived,
+# workflow-scoped credentials, and --provenance attaches a Sigstore-signed attestation
+# linking the tarball to this repo + commit + workflow. Requires a public repo +
+# `id-token: write` + a Trusted Publisher configured on npmjs.com for this package
+# (see docs/Actrone_SDK_OSS_Publishing_Runbook.md).
+#
+# The `prepublishOnly` script (node --test) runs automatically as the publish gate, so a
+# failing test aborts the publish. This package has no dependencies, so there is no
+# install step and no lockfile.
+#
+# NOTE (CI hardening): third-party actions are pinned to release tags for readability;
+# repin to exact commit SHAs per workspace policy before enabling.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write # OIDC trusted publishing + provenance — no signing key, no token
+
+jobs:
+  publish:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      # Trusted publishing requires npm CLI >= 11.5.1; Node 22 ships an older npm.
+      - name: Upgrade npm (trusted publishing)
+        run: npm install -g npm@latest
+
+      # `prepublishOnly` (node --test) runs automatically as the publish gate. --provenance
+      # attaches the signed attestation; --access public publishes this unscoped package
+      # publicly. No NODE_AUTH_TOKEN: authentication is via the OIDC trusted publisher.
+      - name: Publish
+        run: npm publish --provenance --access public
