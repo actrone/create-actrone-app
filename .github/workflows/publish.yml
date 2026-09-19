@@ -1,10 +1,12 @@
 name: Publish to npm
 
 # Publishes create-actrone-app to the npm registry on a version tag (vX.Y.Z). The tag's
-# version MUST match package.json "version" (npm publish refuses a duplicate, so a
-# mismatched/rerun tag fails loudly rather than double-publishing).
+# version MUST match package.json "version"; the "Verify tag matches package.json version"
+# step below fails the run explicitly on a mismatch rather than relying on npm to reject a
+# duplicate (a mismatched tag could otherwise publish a version that was never released
+# under that tag, e.g. before the very first release of that version).
 #
-# Supply-chain posture (mirrors @actrone/memory): npm OIDC **Trusted Publishing** — no
+# Supply-chain posture (mirrors @actrone/memory): npm OIDC **Trusted Publishing**, no
 # long-lived NPM_TOKEN. GitHub's OIDC identity authenticates the publish with short-lived,
 # workflow-scoped credentials, and --provenance attaches a Sigstore-signed attestation
 # linking the tarball to this repo + commit + workflow. Requires a public repo +
@@ -25,16 +27,32 @@ on:
 
 permissions:
   contents: read
-  id-token: write # OIDC trusted publishing + provenance — no signing key, no token
+  id-token: write # OIDC trusted publishing + provenance, no signing key, no token
+  actions: read # read the CI run's conclusion for this commit
 
 jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: actions/setup-node@v4
+      # `prepublishOnly` re-runs the tests, but not the CLI smoke test in ci.yml.
+      # Without this gate, tagging a commit whose CI went red still publishes.
+      - name: Require CI to have passed for this commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          CONCLUSION=$(gh api \
+            "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs?head_sha=${GITHUB_SHA}&per_page=1" \
+            --jq '.workflow_runs[0].conclusion // "missing"')
+          if [ "$CONCLUSION" != "success" ]; then
+            echo "::error::CI for ${GITHUB_SHA} is '${CONCLUSION}', refusing to publish. Tag a commit whose CI passed on main."
+            exit 1
+          fi
+          echo "CI passed for ${GITHUB_SHA}."
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
@@ -42,6 +60,17 @@ jobs:
       # Trusted publishing requires npm CLI >= 11.5.1; Node 22 ships an older npm.
       - name: Upgrade npm (trusted publishing)
         run: npm install -g npm@latest
+
+      # Belt-and-suspenders: fail loudly if the pushed tag and package.json version
+      # disagree, instead of relying solely on npm's duplicate-version rejection.
+      - name: Verify tag matches package.json version
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          PKG_VERSION="$(node -p "require('./package.json').version")"
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Tag v$TAG_VERSION does not match package.json version $PKG_VERSION"
+            exit 1
+          fi
 
       # `prepublishOnly` (node --test) runs automatically as the publish gate. --provenance
       # attaches the signed attestation; --access public publishes this unscoped package

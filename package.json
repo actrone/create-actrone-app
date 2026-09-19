@@ -1,7 +1,7 @@
 {
   "name": "create-actrone-app",
   "version": "0.1.0",
-  "description": "Scaffold a local-first AI-agent memory app powered by @actrone/memory — zero services, no API key.",
+  "description": "Scaffold a local-first AI-agent memory app powered by @actrone/memory: zero services, no API key.",
   "license": "MIT",
   "author": "Actrone",
   "homepage": "https://actrone.com",

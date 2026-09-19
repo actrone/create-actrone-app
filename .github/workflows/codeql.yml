@@ -1,0 +1,37 @@
+name: "CodeQL"
+
+# GitHub's semantic SAST for the scaffolder's JavaScript. ci.yml runs the unit tests and a
+# CLI smoke test but no static security analysis, and this package does real filesystem
+# work driven by user-supplied input (the project name and target directory), which is
+# exactly the shape of bug CodeQL's taint tracking is good at: an argument flowing into a
+# path join and out to disk. Free for public repositories.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly, independent of any push: new CodeQL query packs land continuously, so a repo
+    # with no commits in a given week still gets scanned against the latest rules.
+    - cron: "30 3 * * 1"
+
+jobs:
+  analyze:
+    name: Analyze (javascript)
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write # upload results to the repo's Security tab
+      contents: read
+
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+
+      - uses: github/codeql-action/init@faaca9a8f6edddba5725ffe5adefdab6669a2eca # v3.38.0
+        with:
+          languages: javascript
+          build-mode: none # source-only analysis, no compile step required
+
+      - uses: github/codeql-action/analyze@faaca9a8f6edddba5725ffe5adefdab6669a2eca # v3.38.0
+        with:
+          category: "/language:javascript"

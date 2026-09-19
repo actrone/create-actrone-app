@@ -5,14 +5,14 @@ import { dirname, join, resolve } from "node:path";
 import { FRAMEWORKS, scaffold, validateProjectName } from "../lib/scaffold.mjs";
 
 /**
- * create-actrone-app — greenfield scaffolder for a local-first Actrone memory app.
+ * create-actrone-app: greenfield scaffolder for a local-first Actrone memory app.
  * The non-destructive existing-project path is `npx @actrone/memory add <framework>`.
  *
  *   npm create actrone-app@latest my-agent
  *   npm create actrone-app@latest my-agent -- --framework langgraph
  */
 
-const USAGE = `create-actrone-app — scaffold a local-first AI-agent memory app
+const USAGE = `create-actrone-app: scaffold a local-first AI-agent memory app
 
 Usage:
   npm create actrone-app@latest <project-name> [-- --framework <name>]
@@ -73,12 +73,12 @@ function main() {
   }
 
   process.stdout.write(
-    `\nScaffolded ${args.projectName} (${args.framework}) — ${files.size} files.\n\n` +
+    `\nScaffolded ${args.projectName} (${args.framework}): ${files.size} files.\n\n` +
       "Next steps:\n" +
       `  cd ${args.projectName}\n` +
       "  npm install\n" +
       "  npm start\n\n" +
-      "Memory that never phones home — local-first, zero services, no API key.\n",
+      "Memory that never phones home: local-first, zero services, no API key.\n",
   );
 }
 
