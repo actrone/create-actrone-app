@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Generates a working starter powered by
-[`@actrone/memory`](https://github.com/actrone/actrone-memory-ts): an agent that remembers
+[`actrone-memory`](https://github.com/actrone/actrone-memory-ts): an agent that remembers
 what you told it, across restarts, with nothing running but Node.
 
 ```bash
@@ -27,7 +27,7 @@ Four files, no hidden config, nothing to delete before you start working:
 ```text
 my-agent/
 ├── src/agent.ts      a runnable agent with memory wired up
-├── package.json      one dependency: @actrone/memory
+├── package.json      one dependency: actrone-memory
 ├── tsconfig.json     strict mode, ESM, ready for tsx
 └── README.md         how to run it and where to go next
 ```
@@ -64,7 +64,7 @@ This tool creates a **new** project. It will not touch an existing one.
 If you already have a codebase, use the non-destructive snippet printer instead:
 
 ```bash
-npx @actrone/memory add <framework>
+npx actrone-memory add <framework>
 ```
 
 It prints a copy-paste recipe, or with `--write <file>` creates exactly one new
@@ -77,11 +77,11 @@ there are two independent directions and neither requires a rewrite:
 
 - **Durable self-hosted.** Inject Redis and Qdrant adapters into `MemoryManager.create()`.
   Same API, same result shapes.
-- **Governed and hosted.** Swap one import to `ActroneMemoryManager` from `@actrone/sdk`
-  and every call runs through [Actrone](https://actrone.com) with PII tokenised before
-  inference, an audit trail, and policy limits. Same methods.
+- **Governed and hosted** (when Actrone's hosted platform launches). Swap one import to
+  its drop-in `ActroneMemoryManager` and every call runs through [Actrone](https://actrone.com)
+  with PII tokenised before inference, an audit trail, and policy limits. Same methods.
 
-You are never required to take either step. `@actrone/memory` is MIT and works standalone
+You are never required to take either step. `actrone-memory` is MIT and works standalone
 indefinitely.
 
 ## License

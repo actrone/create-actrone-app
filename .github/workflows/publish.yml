@@ -6,7 +6,7 @@ name: Publish to npm
 # duplicate (a mismatched tag could otherwise publish a version that was never released
 # under that tag, e.g. before the very first release of that version).
 #
-# Supply-chain posture (mirrors @actrone/memory): npm OIDC **Trusted Publishing**, no
+# Supply-chain posture (mirrors actrone-memory): npm OIDC **Trusted Publishing**, no
 # long-lived NPM_TOKEN. GitHub's OIDC identity authenticates the publish with short-lived,
 # workflow-scoped credentials, and --provenance attaches a Sigstore-signed attestation
 # linking the tarball to this repo + commit + workflow. Requires a public repo +
@@ -57,9 +57,11 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      # Trusted publishing requires npm CLI >= 11.5.1; Node 22 ships an older npm.
+      # Trusted publishing requires npm CLI >= 11.5.1; Node 22 ships an older npm. Pinned exactly,
+      # not @latest: `latest` moved to npm 12 in 2026, and the job that holds publish rights should
+      # not pick up a new major on release day. Bump deliberately.
       - name: Upgrade npm (trusted publishing)
-        run: npm install -g npm@latest
+        run: npm install -g npm@11.19.1
 
       # Belt-and-suspenders: fail loudly if the pushed tag and package.json version
       # disagree, instead of relying solely on npm's duplicate-version rejection.

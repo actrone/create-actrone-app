@@ -18,22 +18,22 @@ test("scaffold produces a coherent, runnable starter file map", () => {
 
   const pkg = JSON.parse(files.get("package.json"));
   assert.equal(pkg.name, "my-agent");
-  assert.ok(pkg.dependencies["@actrone/memory"], "depends on @actrone/memory");
+  assert.ok(pkg.dependencies["actrone-memory"], "depends on actrone-memory");
   assert.equal(pkg.type, "module");
 
   const agent = files.get("src/agent.ts");
   assert.match(agent, /MemoryManager\.create\(\)/);
-  assert.match(agent, /@actrone\/sdk/); // the hosted-upgrade seed
+  assert.match(agent, /ActroneMemoryManager/); // the hosted-upgrade seed, not yet a published package
 });
 
 test("scaffold with a framework adds the `add` hint to the README", () => {
   const files = scaffold({ projectName: "my-agent", framework: "langgraph" });
-  assert.match(files.get("README.md"), /npx @actrone\/memory add langgraph/);
+  assert.match(files.get("README.md"), /npx actrone-memory add langgraph/);
 });
 
 test("core framework README has no add hint", () => {
   const files = scaffold({ projectName: "my-agent", framework: "core" });
-  assert.doesNotMatch(files.get("README.md"), /npx @actrone\/memory add/);
+  assert.doesNotMatch(files.get("README.md"), /npx actrone-memory add/);
 });
 
 test("scaffold rejects invalid project names and unknown frameworks", () => {

@@ -6,7 +6,7 @@ import { FRAMEWORKS, scaffold, validateProjectName } from "../lib/scaffold.mjs";
 
 /**
  * create-actrone-app: greenfield scaffolder for a local-first Actrone memory app.
- * The non-destructive existing-project path is `npx @actrone/memory add <framework>`.
+ * The non-destructive existing-project path is `npx actrone-memory add <framework>`.
  *
  *   npm create actrone-app@latest my-agent
  *   npm create actrone-app@latest my-agent -- --framework langgraph
