@@ -11,14 +11,15 @@ name: Publish to npm
 # workflow-scoped credentials, and --provenance attaches a Sigstore-signed attestation
 # linking the tarball to this repo + commit + workflow. Requires a public repo +
 # `id-token: write` + a Trusted Publisher configured on npmjs.com for this package
-# (see docs/Actrone_SDK_OSS_Publishing_Runbook.md).
+# (see Actrone_OSS_Launch_Environment_Variables_Runbook.md, section 2, in the infra repo).
 #
 # The `prepublishOnly` script (node --test) runs automatically as the publish gate, so a
 # failing test aborts the publish. This package has no dependencies, so there is no
 # install step and no lockfile.
 #
-# NOTE (CI hardening): third-party actions are pinned to release tags for readability;
-# repin to exact commit SHAs per workspace policy before enabling.
+# Every third-party action is pinned to an exact commit SHA (release tag in the trailing
+# comment), because this job holds `id-token: write`. The `npm` environment adds a required
+# reviewer before anything publishes.
 
 on:
   push:
@@ -34,6 +35,9 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    # Waits for a required reviewer before it can publish. The same name must be set as the
+    # trusted publisher's "Environment name" on npmjs.com, so no other job can publish.
+    environment: npm
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
