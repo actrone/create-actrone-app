@@ -1,10 +1,10 @@
 {
   "name": "create-actrone-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Scaffold a local-first AI-agent memory app powered by actrone-memory: zero services, no API key.",
   "license": "MIT",
   "author": "Actrone",
-  "homepage": "https://actrone.com",
+  "homepage": "https://actrone.com/docs/getting-started/quickstart",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/actrone/create-actrone-app.git"
@@ -28,11 +28,16 @@
     "prepublishOnly": "node --test"
   },
   "keywords": [
-    "actrone",
-    "memory",
-    "ai",
-    "agents",
+    "create-app",
     "scaffold",
-    "create-app"
+    "starter",
+    "template",
+    "cli",
+    "ai-agents",
+    "agent-memory",
+    "memory",
+    "local-first",
+    "typescript",
+    "actrone"
   ]
 }
