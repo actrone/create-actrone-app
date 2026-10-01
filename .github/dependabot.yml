@@ -15,6 +15,9 @@ updates:
       interval: weekly
     commit-message:
       prefix: "chore"
+    # Minor and patch bumps batch into one PR. A major version of an action can change its
+    # runtime or inputs, so each one arrives as its own PR instead of sinking the whole batch.
     groups:
       actions:
         patterns: ["*"]
+        update-types: ["minor", "patch"]
