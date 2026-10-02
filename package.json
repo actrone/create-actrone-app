@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "description": "Scaffold a local-first AI-agent memory app powered by actrone-memory: zero services, no API key.",
   "license": "MIT",
-  "author": "Actrone",
+  "author": "Apocalypse Technologies <hello@actrone.com> (https://actrone.com)",
   "homepage": "https://actrone.com/docs/getting-started/quickstart",
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
   ],
   "scripts": {
     "test": "node --test",
+    "e2e": "node scripts/e2e.mjs",
     "prepublishOnly": "node --test"
   },
   "keywords": [

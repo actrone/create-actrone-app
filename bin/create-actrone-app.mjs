@@ -2,7 +2,7 @@
 import { existsSync, mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
-import { FRAMEWORKS, scaffold, validateProjectName } from "../lib/scaffold.mjs";
+import { FRAMEWORKS, addCommand, scaffold, validateProjectName } from "../lib/scaffold.mjs";
 
 /**
  * create-actrone-app: greenfield scaffolder for a local-first Actrone memory app.
@@ -72,13 +72,15 @@ function main() {
     writeFileSync(abs, content, "utf8");
   }
 
+  const frameworkStep = args.framework === "core" ? "" : `  ${addCommand(args.framework)}\n`;
   process.stdout.write(
     `\nScaffolded ${args.projectName} (${args.framework}): ${files.size} files.\n\n` +
       "Next steps:\n" +
       `  cd ${args.projectName}\n` +
       "  npm install\n" +
-      "  npm start\n\n" +
-      "Memory that never phones home: local-first, zero services, no API key.\n",
+      "  npm start\n" +
+      frameworkStep +
+      "\nMemory that never phones home: local-first, zero services, no API key.\n",
   );
 }
 
