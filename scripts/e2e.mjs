@@ -75,7 +75,10 @@ try {
     const [command, ...args] = addCommand(framework).split(" ");
     const written = run(command, args, project);
     const install = /^Install: npm i (.+)$/m.exec(written)?.[1];
-    check(Boolean(install), `\`actrone-memory add ${framework}\` names the packages to install`);
+    check(
+      Boolean(install),
+      `\`actrone-memory add ${framework}\` names the packages to install (it printed: ${JSON.stringify(written)})`,
+    );
     const packages = install.split(/\s+/).filter((name) => name && name !== "actrone-memory");
     run("npm", ["install", ...NPM_RETRY_FLAGS, ...packages], project);
     run("npm", ["run", "typecheck"], project);

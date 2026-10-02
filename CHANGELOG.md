@@ -10,9 +10,11 @@ All notable changes to `create-actrone-app` are documented here. The format is b
 
 ### Changed
 
-- **New projects use TypeScript 7 and actrone-memory 0.1.2.** The starter's `typescript` dev
-  dependency is `^7`, the native compiler, and `actrone-memory` is `^0.1.2`, the first release
-  that installs next to the current framework majors (Vercel AI SDK 7, Mastra 1, VoltAgent 2).
+- **New projects use TypeScript 7 and actrone-memory 0.1.3.** The starter's `typescript` dev
+  dependency is `^7`, the native compiler, and `actrone-memory` is `^0.1.3`: the first release
+  that installs next to the current framework majors (Vercel AI SDK 7, Mastra 1, VoltAgent 2) and
+  whose `npx actrone-memory add`, which the generated README tells you to run, works on macOS and
+  Linux.
 - **`--framework` gives the command that writes the wiring.** The generated README and the CLI's
   next steps now show `npx actrone-memory add <framework> --write src/<framework>.ts`, which
   writes one new file with memory wired into the framework and prints the packages to install.

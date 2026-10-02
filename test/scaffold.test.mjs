@@ -37,8 +37,10 @@ test("scaffold produces a coherent, runnable starter file map", () => {
 
 test("the starter depends on the fixed library and TypeScript 7", () => {
   const pkg = JSON.parse(scaffold({ projectName: "my-agent" }).get("package.json"));
-  // 0.1.2 is the first actrone-memory that installs next to the current framework majors.
-  assert.equal(pkg.dependencies["actrone-memory"], "^0.1.2");
+  // 0.1.3 is the first actrone-memory that installs next to the current framework majors and
+  // whose `npx actrone-memory add`, which the generated README tells users to run, works on
+  // macOS and Linux.
+  assert.equal(pkg.dependencies["actrone-memory"], "^0.1.3");
   assert.equal(pkg.devDependencies.typescript, "^7");
 });
 
