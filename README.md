@@ -7,6 +7,8 @@
 [![node](https://img.shields.io/node/v/create-actrone-app)](https://www.npmjs.com/package/create-actrone-app)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+**[Quickstart](https://actrone.com/docs/getting-started/quickstart)** · [Documentation](https://actrone.com/docs/memory/overview) · [Framework integrations](https://actrone.com/docs/memory/integrations) · [Changelog](https://actrone.com/changelog)
+
 Generates a working TypeScript starter powered by
 [`actrone-memory`](https://github.com/actrone/actrone-memory-ts): an agent with memory wired
 up and running, with nothing to install but Node.
