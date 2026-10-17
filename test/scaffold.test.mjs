@@ -35,12 +35,11 @@ test("scaffold produces a coherent, runnable starter file map", () => {
   assert.match(agent, /every run starts empty/); // in-memory by default: it does not claim persistence
 });
 
-test("the starter depends on the fixed library and TypeScript 7", () => {
+test("the starter depends on the newest library minor and TypeScript 7", () => {
   const pkg = JSON.parse(scaffold({ projectName: "my-agent" }).get("package.json"));
-  // 0.1.3 is the first actrone-memory that installs next to the current framework majors and
-  // whose `npx actrone-memory add`, which the generated README tells users to run, works on
-  // macOS and Linux.
-  assert.equal(pkg.dependencies["actrone-memory"], "^0.1.3");
+  // A caret range on 0.x never crosses a minor, so `^0.1.3` would keep new projects on 0.1.x,
+  // without the redaction on read that 0.2.0 added.
+  assert.equal(pkg.dependencies["actrone-memory"], "^0.2.0");
   assert.equal(pkg.devDependencies.typescript, "^7");
 });
 

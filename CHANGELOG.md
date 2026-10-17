@@ -6,6 +6,16 @@ All notable changes to `create-actrone-app` are documented here. The format is b
 
 ---
 
+## [0.1.2] - 2026-10-17
+
+### Changed
+
+- **New projects use actrone-memory 0.2.0.** The starter's `actrone-memory` dependency is
+  `^0.2.0`, so new projects get redaction on read: `retrieveContext()` and `searchMemories()`
+  take `{ redact: ["pii", "sensitive"] }`, and the `redactSensitivities` config key sets it for
+  every read. A caret range on a 0.x version stays within one minor release, so the previous
+  `^0.1.3` kept new projects on 0.1.x.
+
 ## [0.1.1] - 2026-10-02
 
 ### Changed
