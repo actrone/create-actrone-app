@@ -27,3 +27,26 @@ Thumbs.db
 # Test / coverage
 coverage/
 .nyc_output/
+
+# Hardening 2026-11-05: key material
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Hardening 2026-11-05: Windows (Git Bash crash dumps)
+*.stackdump
+
+# Hardening 2026-11-05: Windows (download marks)
+*:Zone.Identifier
+
+# Hardening 2026-11-05: scratch files
+*.tmp
+*.bak
+
+# Hardening 2026-11-05: merge leftovers
+*.orig
+*.rej
+
+# Hardening 2026-11-05: editor backups
+*~
