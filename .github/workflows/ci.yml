@@ -6,9 +6,9 @@ name: CI
 # registry, typechecked with TypeScript 7, run, and wired into each framework's newest release.
 on:
   push:
-    branches: [main]
+    branches: [main, staging]
   pull_request:
-    branches: [main]
+    branches: [main, staging]
 
 permissions:
   contents: read
